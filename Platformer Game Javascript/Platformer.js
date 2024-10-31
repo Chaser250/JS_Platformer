@@ -1,7 +1,7 @@
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext('2d');
-//ctx.canvas.width = window.innerWidth;
-//ctx.canvas.height = window.innerHeight;
+ctx.canvas.width = window.innerWidth;
+ctx.canvas.height = window.innerHeight;
 class Sprite {
     constructor(x, y, width, height, shape, color) {
         this.x = x;
@@ -36,31 +36,48 @@ class Sprite {
     };
 }
 
+
 let keys = {
     left: 0,
     right: 0,
     up: 0,
     shift: 0
 }
-window.addEventListener('keydown', function (e) {
-    if (e.key === 'ArrowLeft' || e.key === 'KeyA')
-        keys.left++;
-    if (e.key === 'ArrowRight' || e.key === 'KeyD')
-        keys.right++;
-    if (e.key === 'ArrowUp' || e.key === 'KeyW' || e.key === 'Space')
-        keys.up++;
-    if (e.key === 'ShiftLeft' || e.key === 'ShiftRight')
-        keys.shift++;      
-    }
-});
-
-window.addEventListener('keyup', function (e) {
+document.addEventListener('keydown', function (e) {
     if (e.key === 'ArrowLeft')
-        keys.left = false;
+        keys.left++;
     if (e.key === 'ArrowRight')
-        keys.right = false;
+        keys.right++;
+    if (e.key === 'ArrowUp')
+        keys.up++;
+    if (e.key === 'ShiftLeft')
+        keys.shift++;      
 });
 
+document.addEventListener('keyup', function (e) {
+    if (e.key === 'ArrowLeft')
+        keys.left--;
+    if (e.key === 'ArrowRight')
+        keys.right--;
+    if (e.key === 'ArrowUp')
+        keys.up--;
+    if (e.key === 'ShiftLeft')
+        keys.shift--;      
+});
+
+function control(){
+    let move_x, move_y;
+    if (keys.left <== 0)
+        move_x = -2;
+    player.x += move_x;
+}
+
+function game_loop(){
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    player.draw();
+    control();
+    requestAnimationFrame(game_loop);
+}
 
 const player = new Sprite(60, 60, 15, 15, "rectangle", "#00008b");
 player.draw();
